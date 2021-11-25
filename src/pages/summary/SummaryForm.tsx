@@ -9,9 +9,22 @@ export const SummaryForm = () => {
     checkBoxState === true ? setBtn(true) : setBtn(false);
     setCheckBox(!checkBoxState);
   };
+  const checkBoxLabel = <span>I Agree to the terms and conditions...</span>;
 
   return (
-    <>
+    <Form>
+      <Form.Group>
+        <Form.Check
+          inline
+          label={checkBoxLabel}
+          name='checkThis'
+          type='checkbox'
+          id='inline-checkbox-1'
+          onChange={handleCheckBoxClick}
+          checked={checkBoxState}
+        />
+      </Form.Group>
+
       <Button
         variant='primary'
         disabled={btnState}
@@ -21,15 +34,6 @@ export const SummaryForm = () => {
       >
         Click HERE !
       </Button>
-      <Form.Check
-        inline
-        label='Testing Checkbox'
-        name='checkThis'
-        type='checkbox'
-        id='inline-checkbox-1'
-        onChange={handleCheckBoxClick}
-        checked={checkBoxState}
-      />
-    </>
+    </Form>
   );
 };
