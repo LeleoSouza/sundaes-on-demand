@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap';
+
+const popover = (
+  <Popover id='popover-basic'>
+    <Popover.Body>No icecream will be delivered</Popover.Body>
+  </Popover>
+);
 
 export const SummaryForm = () => {
   const [checkBoxState, setCheckBox] = useState(false);
@@ -9,7 +15,14 @@ export const SummaryForm = () => {
     checkBoxState === true ? setBtn(true) : setBtn(false);
     setCheckBox(!checkBoxState);
   };
-  const checkBoxLabel = <span>I Agree to the terms and conditions...</span>;
+  const checkBoxLabel = (
+    <>
+      <span>I Agree to</span>
+      <OverlayTrigger placement='right' overlay={popover}>
+        <span>terms and conditions</span>
+      </OverlayTrigger>
+    </>
+  );
 
   return (
     <Form>
