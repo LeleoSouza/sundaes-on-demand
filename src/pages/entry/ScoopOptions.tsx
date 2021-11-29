@@ -1,5 +1,10 @@
 import React from 'react';
 
-export const ScoopOptions = () => {
+type Props = {
+  name: string;
+  imagePath: string;
+};
+const ScoopOptions = ({ name, imagePath }: Props) => {
   return <div>Scoop Options</div>;
 };
+export default ScoopOptions;
