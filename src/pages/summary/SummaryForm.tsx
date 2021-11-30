@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Popover, OverlayTrigger } from 'react-bootstrap';
+// import { Options } from '../../pages/entry/Options';
 
 const popover = (
   <Popover id='popover-basic'>
@@ -25,28 +26,31 @@ export const SummaryForm = () => {
   );
 
   return (
-    <Form>
-      <Form.Group>
-        <Form.Check
-          inline
-          label={checkBoxLabel}
-          name='checkThis'
-          type='checkbox'
-          id='inline-checkbox-1'
-          onChange={handleCheckBoxClick}
-          checked={checkBoxState}
-        />
-      </Form.Group>
+    <>
+      {/* <Options optionsType='scoops' /> */}
+      <Form>
+        <Form.Group>
+          <Form.Check
+            inline
+            label={checkBoxLabel}
+            name='checkThis'
+            type='checkbox'
+            id='inline-checkbox-1'
+            onChange={handleCheckBoxClick}
+            checked={checkBoxState}
+          />
+        </Form.Group>
 
-      <Button
-        variant='primary'
-        disabled={btnState}
-        onClick={() => {
-          console.log('HERE');
-        }}
-      >
-        Click HERE !
-      </Button>
-    </Form>
+        <Button
+          variant='primary'
+          disabled={btnState}
+          onClick={() => {
+            console.log('HERE');
+          }}
+        >
+          Click HERE !
+        </Button>
+      </Form>
+    </>
   );
 };
