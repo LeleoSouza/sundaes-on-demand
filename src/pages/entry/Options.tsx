@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ScoopOptions from './ScoopOptions';
 import { Row } from 'react-bootstrap';
+import { Toppings } from './Toppings';
 
 type Props = {
   optionsType: string;
@@ -28,7 +29,9 @@ export const Options = ({ optionsType }: Props) => {
           ? items.map((item, index) => {
               return <ScoopOptions key={item.name} name={item.name} imagePath={item.imagePath} />;
             })
-          : null}
+          : items.map((item, index) => {
+              return <Toppings key={item.name} name={item.name} imagePath={item.imagePath} />;
+            })}
       </Row>
     </div>
   );
