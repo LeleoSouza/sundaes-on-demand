@@ -4,6 +4,8 @@ import ScoopOptions from './ScoopOptions';
 import { Row } from 'react-bootstrap';
 import { Toppings } from './Toppings';
 import { AlertBanner } from '../common/AlertBanner';
+import { PRICE } from '../../constants';
+import { UserOrderDetails } from '../../context/OrderDetails';
 
 type Props = {
   optionsType: string;
@@ -14,12 +16,15 @@ interface Res {
 }
 
 export const Options = ({ optionsType }: Props) => {
+  const orderDetails = UserOrderDetails();
+  const updateItemCount = UserOrderDetails();
+
   const [items, setItems] = useState<Res[]>([]);
   const [error, setError] = useState(false);
   useEffect(() => {
     axios
       .get<Res[], Res[]>(`http://localhost:3030/${optionsType}`)
-      //   @ts-ignore
+      // @ts-ignore
       .then((response) => setItems(response.data))
       .catch((err) => setError(true));
   }, [optionsType]);
@@ -27,12 +32,27 @@ export const Options = ({ optionsType }: Props) => {
   if (error) {
     return <AlertBanner message='' variant='' />;
   }
+  const title = optionsType[0].toUpperCase() + optionsType.slice(1).toLocaleLowerCase();
   return (
     <div>
+      <h2>{title}</h2>
+      <p>{PRICE[optionsType]} each.</p>
+      {/* @ts-ignore */}
+      {/* <p>{orderDetails?.totals[optionsType]}</p> */}
       <Row>
         {optionsType === 'scoops'
           ? items.map((item, index) => {
-              return <ScoopOptions key={item.name} name={item.name} imagePath={item.imagePath} />;
+              return (
+                <ScoopOptions
+                  key={item.name}
+                  name={item.name}
+                  imagePath={item.imagePath}
+                  updateItemCount={(itemName: string, newItemCount: string) =>
+                    // @ts-ignore
+                    updateItemCount(itemName, newItemCount, optionsType)
+                  }
+                />
+              );
             })
           : items.map((item, index) => {
               return <Toppings key={item.name} name={item.name} imagePath={item.imagePath} />;

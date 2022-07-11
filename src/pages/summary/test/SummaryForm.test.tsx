@@ -18,7 +18,7 @@ describe('Testing Summary form ', () => {
     render(<SummaryForm />);
     // poop over starts hidden
     const nullPopOver = screen.queryByText('No icecream will be delivered');
-    expect(nullPopOver).toBeNull();
+    expect(nullPopOver).not.toBeInTheDocument();
     // appears upon mouseover
     const termsAndConditions = screen.getByText('terms and conditions');
     userEvent.hover(termsAndConditions);
