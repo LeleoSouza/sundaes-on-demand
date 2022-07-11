@@ -1,13 +1,13 @@
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, FormControlProps, Row } from 'react-bootstrap';
 
 type Props = {
   name: string;
   imagePath: string;
-  updateItemCount: (itemName: string, newItemCount: string) => [];
+  updateItemCount: (itemName: string, newItemCount: string) => any;
 };
 const ScoopOptions = ({ name, imagePath, updateItemCount }: Props) => {
-  const handleChange = (event: any) => {
-    updateItemCount(name, event.targe.value);
+  const handleChange = (event: string) => {
+    updateItemCount(name, event);
   };
   return (
     <Col xs={12} sm={6} md={4} lg={3}>
@@ -17,7 +17,7 @@ const ScoopOptions = ({ name, imagePath, updateItemCount }: Props) => {
           {name}
         </Form.Label>
         <Col xs='5' style={{ textAlign: 'left' }}>
-          <Form.Control type='number' defaultValue={0} onChange={(event) => handleChange(event)} />
+          <Form.Control type='number' defaultValue={0} onChange={(event) => handleChange(event.target.value)} />
         </Col>
       </Form.Group>
     </Col>

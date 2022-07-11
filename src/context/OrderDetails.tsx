@@ -3,8 +3,8 @@ import { PRICE } from '../constants';
 
 type ParamUpdateCount = {
   itemName: string;
-  newItemCount: any;
-  optionType: any;
+  newItemCount: string;
+  optionType: string;
 };
 interface OptionCounts<T> {
   [scoop: string]: T;
@@ -14,18 +14,19 @@ type Totals = {
   toppings: number;
   grandTotal: number;
 };
-const OrderDetails = createContext<any>([]);
+
+export const OrderDetails = createContext<any>(null);
 
 // create custom hook => check if  we are inside the provider
-export const UserOrderDetails = (): [] => {
-  const context = useContext<any>(OrderDetails);
+export const useOrderDetails = () => {
+  const context = useContext(OrderDetails);
   if (!context) {
     throw new Error('userOrder must be within a provider');
   }
   return context;
 };
 
-const calculateSubTotal = (optionType: string, optionCounts: any) => {
+const calculateSubTotal = (optionType: string, optionCounts: OptionCounts<any>) => {
   let optionCount = 0;
 
   for (const count of optionCounts[optionType].values()) {
@@ -52,21 +53,24 @@ export const OrderDetailsProvider = (props: any) => {
     });
   }, [optionCounts]);
 
-  const value = useMemo((): [object, any] => {
-    const updateItemCount = ({ itemName, newItemCount, optionType }: ParamUpdateCount): void => {
-      const newOptionCount: any = { ...optionCounts };
+  const value = useMemo(() => {
+    const updateItemCount = (itemName: string, newItemCount: string, optionType: string): void => {
+      const newOptionCount = { ...optionCounts };
       // update Option count for this item with new value
-
       const optionCountMap = newOptionCount[optionType];
       optionCountMap.set(itemName, parseInt(newItemCount));
       setOptionCounts(newOptionCount);
     };
     // getting obj contains option count and subtotals and totals
     // setter:update option counts
-    return [{ ...optionCounts, totals }, updateItemCount] as [
-      { scoops: string; toppings: string; totals: object },
-      () => void
-    ];
+
+    function resetOrder() {
+      setOptionCounts({
+        scoops: new Map(),
+        toppings: new Map(),
+      });
+    }
+    return [{ ...optionCounts, totals }, updateItemCount, resetOrder];
   }, [optionCounts, totals]);
 
   return <OrderDetails.Provider value={value} {...props} />;
