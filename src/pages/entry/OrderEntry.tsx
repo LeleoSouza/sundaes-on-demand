@@ -5,10 +5,10 @@ export const OrderEntry = () => {
   return (
     <>
       <div>
-        <Options optionsType='scoops' />
+        <Options optionType='scoops' />
       </div>
       <div>
-        <Options optionsType='toppings' />
+        <Options optionType='toppings' />
       </div>
     </>
   );
