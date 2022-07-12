@@ -1,18 +1,13 @@
 import { useContext, useState, createContext, useMemo, useEffect } from 'react';
 import { PRICE } from '../constants';
-
-type ParamUpdateCount = {
-  itemName: string;
-  newItemCount: string;
-  optionType: string;
-};
+import { formatCurrency } from '../utilities';
 interface OptionCounts<T> {
   [scoop: string]: T;
 }
 type Totals = {
-  scoops: number;
-  toppings: number;
-  grandTotal: number;
+  scoops: string;
+  toppings: string;
+  grandTotal: string;
 };
 
 export const OrderDetails = createContext<any>(null);
@@ -40,16 +35,21 @@ export const OrderDetailsProvider = (props: any) => {
     scoops: new Map(),
     toppings: new Map(),
   });
-  const [totals, setTotals] = useState<Totals>({ scoops: 0, toppings: 0, grandTotal: 0 });
+  const zeroCurrency = formatCurrency(0);
+  const [totals, setTotals] = useState<Totals>({
+    scoops: zeroCurrency,
+    toppings: zeroCurrency,
+    grandTotal: zeroCurrency,
+  });
 
   useEffect(() => {
     const scoopsSubTotal = calculateSubTotal('scoops', optionCounts);
     const toppingsSubTotal = calculateSubTotal('toppings', optionCounts);
     const grandTotal = scoopsSubTotal + toppingsSubTotal;
     setTotals({
-      grandTotal,
-      scoops: scoopsSubTotal,
-      toppings: toppingsSubTotal,
+      grandTotal: formatCurrency(grandTotal),
+      scoops: formatCurrency(scoopsSubTotal),
+      toppings: formatCurrency(toppingsSubTotal),
     });
   }, [optionCounts]);
 
