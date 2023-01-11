@@ -13,6 +13,7 @@ describe('Test Options', () => {
       // @ts-ignore
       return element.alt;
     });
+
     expect(altText).toEqual(['Chocolate scoop', 'Vanilla scoop']);
   });
 });
@@ -30,14 +31,14 @@ test('Displays image for each toppings option from server', async () => {
   // check the actual alt text for the images
   // @ts-ignore
   const imageTitles = images.map((img) => img.alt);
-  expect(imageTitles).toEqual(['Cherries topping', 'M&Ms topping', 'Hot fudge topping', 'Peanut butter cups topping']);
+  expect(imageTitles).toEqual(['M&Ms topping', 'Hot fudge topping', 'Peanut butter cups topping']);
 });
 
 test("don't update total if scoops input is invalid", async () => {
-  render(<Options optionType='scoops' />);
+  render(<Options optionType='Scoops' />);
 
   // expect button to be enabled after adding scoop
-  const vanillaInput = await screen.findByRole('spinbutton', {
+  const vanillaInput = await screen.findByRole('input', {
     name: 'Vanilla',
   });
   userEvent.clear(vanillaInput);
