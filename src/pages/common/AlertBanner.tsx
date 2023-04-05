@@ -7,7 +7,7 @@ type Props = {
 };
 export const AlertBanner = ({ message, variant }: Props) => {
   const alertMessage = message || 'An unexpected error accured. Please try again later.';
-  const alertVariant = variant || 'danger';
+  const alertVariant = variant || 'Danger';
   return (
     <Alert variant={alertVariant} style={{ backgroundColor: 'red' }}>
       {alertMessage}
